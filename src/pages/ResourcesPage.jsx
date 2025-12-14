@@ -1,4 +1,12 @@
-import {useContext, useState, useMemo} from "react";
+import {
+  useContext,
+  useState,
+  useMemo,
+  useCallback,
+  memo,
+  useRef,
+  useEffect,
+} from "react";
 import styled from "styled-components";
 import {ResourcesContext} from "../contexts/ResourcesContext.jsx";
 import PageContainer from "../components/ui/PageContainer.jsx";
@@ -154,10 +162,52 @@ const ResourceDescription = styled.p`
   }
 `;
 
+const ResourceCardComponent = memo(({resource}) => {
+  return (
+    <ResourceCard
+      href={resource?.link || "#"}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <ImageContainer>
+        <ResourceImage
+          src={resource.imageUrl}
+          alt={resource.name}
+          loading="lazy"
+          decoding="async"
+        />
+      </ImageContainer>
+      <TextContainer>
+        <ResourceName>{resource.name}</ResourceName>
+        <ResourceDescription>{resource.description}</ResourceDescription>
+      </TextContainer>
+    </ResourceCard>
+  );
+});
+
+ResourceCardComponent.displayName = "ResourceCardComponent";
+
 export default function ResourcesPage() {
   const resources = useContext(ResourcesContext);
   const [selectedTags, setSelectedTags] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
+  const searchTimeoutRef = useRef(null);
+
+  useEffect(() => {
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
+    }
+    searchTimeoutRef.current = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+    }, 300);
+
+    return () => {
+      if (searchTimeoutRef.current) {
+        clearTimeout(searchTimeoutRef.current);
+      }
+    };
+  }, [searchQuery]);
 
   const allTags = useMemo(() => {
     const tagSet = new Set();
@@ -172,9 +222,8 @@ export default function ResourcesPage() {
   const filteredResources = useMemo(() => {
     let filtered = resources;
 
-    // Filter by search query
-    if (searchQuery.trim() !== "") {
-      const query = searchQuery.toLowerCase();
+    if (debouncedSearchQuery.trim() !== "") {
+      const query = debouncedSearchQuery.toLowerCase();
       filtered = filtered.filter(resource => {
         const nameMatch = resource.name?.toLowerCase().includes(query);
         const descriptionMatch = resource.description
@@ -184,7 +233,6 @@ export default function ResourcesPage() {
       });
     }
 
-    // Filter by tags
     if (selectedTags.length > 0) {
       filtered = filtered.filter(resource => {
         if (!resource.tags) return false;
@@ -193,9 +241,9 @@ export default function ResourcesPage() {
     }
 
     return filtered;
-  }, [resources, selectedTags, searchQuery]);
+  }, [resources, selectedTags, debouncedSearchQuery]);
 
-  const handleTagToggle = tag => {
+  const handleTagToggle = useCallback(tag => {
     setSelectedTags(prev => {
       if (prev.includes(tag)) {
         return prev.filter(t => t !== tag);
@@ -203,7 +251,7 @@ export default function ResourcesPage() {
         return [...prev, tag];
       }
     });
-  };
+  }, []);
 
   return (
     <PageContainer>
@@ -232,21 +280,7 @@ export default function ResourcesPage() {
           </Sidebar>
           <GridContainer>
             {filteredResources.map(resource => (
-              <ResourceCard
-                key={resource.id}
-                href={resource?.link || "#"}
-                target="_blank"
-              >
-                <ImageContainer>
-                  <ResourceImage src={resource.imageUrl} alt={resource.name} />
-                </ImageContainer>
-                <TextContainer>
-                  <ResourceName>{resource.name}</ResourceName>
-                  <ResourceDescription>
-                    {resource.description}
-                  </ResourceDescription>
-                </TextContainer>
-              </ResourceCard>
+              <ResourceCardComponent key={resource.id} resource={resource} />
             ))}
           </GridContainer>
         </PageLayout>
