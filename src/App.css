@@ -1,24 +1,26 @@
 body {
   background-color: #f2f2f2;
-  font-family: 'Ranade', sans-serif;
+  font-family: 'Satoshi', sans-serif;
+  font-weight: 600;
   font-size: 62.5%;
   font-size: 1rem;
   box-sizing: border-box;
-}
-
-.page-container {
-  max-width: 1200px;
-  margin: 2.4rem auto;
-  padding: 0 2.4rem;
+  margin-top: 6.1rem;
 }
 
 .navbar {
-  background-color: #ffffff;
-  border-bottom: 1px solid #ddd;
+  background-color: #101010;
+  color: #f2f2f2;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 6.1rem;
+  max-height: 6.1rem;
 }
 
 .nav-content {
-  max-width: 1200px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -29,26 +31,11 @@ body {
   display: flex;
   flex-direction: row;
   flex-grow: 1;
+  max-width: 900px;
 }
 
-.nav-links a {
-  font-size: 1.2rem;
-  width: 100%;
-  text-align: center;
-  padding: 2.4rem 0.6rem;
-  text-decoration: none;
-  color: #333;
-  border-bottom: 2px solid transparent;
-}
-
-
-.nav-links a:hover {
-  border-bottom: 2px solid black;
-  color: #333;
-}
 
 .logo {
-  font-size: 3.2rem;
-  font-weight: bold;
+  height: 6.1rem;
   margin: 0 2.4rem;
 }
