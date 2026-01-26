@@ -104,6 +104,7 @@ const ResourceCard = styled.a`
   cursor: pointer;
   overflow: visible;
   z-index: 1;
+  will-change: transform;
 
   &:hover {
     transform: translateY(-4px);
@@ -142,7 +143,8 @@ const ResourceDescription = styled.p`
   max-height: 0;
   overflow: hidden;
   opacity: 0;
-  transition: box-shadow 0.3s ease;
+  transition: all 0.3s ease;
+  will-change: max-height, opacity;
   /* z-index: 100; */
   position: absolute;
   top: 100%;

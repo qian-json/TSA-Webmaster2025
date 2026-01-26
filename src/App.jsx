@@ -1,6 +1,6 @@
 import {Outlet, Link, NavLink} from "react-router-dom";
 import styled from "styled-components";
-import logo from "/public/logo.png";
+import logo from "/public/favicon.png";
 import "./App.css";
 
 const Footer = styled.footer`
@@ -13,16 +13,22 @@ const Footer = styled.footer`
 `;
 
 const StyledNavLink = styled(NavLink)`
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   width: 100%;
   text-align: center;
-  padding: 2.4rem 0.6rem;
+  /* padding: 2.4rem 0.6rem; */
+  padding: 0 0.6rem;
   text-decoration: none;
   color: #f2f2f2;
   border-bottom: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 
   &:hover {
     border-bottom: 2px solid #b6b6b6;
+    /* background-color: #b6b6b6; */
     color: #b6b6b6;
   }
 
@@ -56,10 +62,10 @@ export default function App() {
         <Outlet />
       </main>
 
-      <Footer>
+      {/*<Footer>
         © {new Date().getFullYear()} Jason Qian, Agasthya Tatti, Taeyun Kim,
         Farzaan Siddiqui, Vivan Rajesh Kanna, Aadi Jain. All rights reserved.
-      </Footer>
+      </Footer>*/}
     </>
   );
 }
