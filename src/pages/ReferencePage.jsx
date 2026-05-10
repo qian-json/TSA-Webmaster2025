@@ -143,6 +143,28 @@ export default function ReferencePage() {
         </ListItem>
       </List>
 
+      <Heading3>Required TSA documentation:</Heading3>
+      <List>
+        <ListItem>
+          <StyledLink
+            href="/plan-of-work-log.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            TSA Work Log
+          </StyledLink>
+        </ListItem>
+        <ListItem>
+          <StyledLink
+            href="/student-copyright-checklist.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Student Copyright Checklist
+          </StyledLink>
+        </ListItem>
+      </List>
+
       <Heading3>
         For organization name and information listed in the resource directory:
       </Heading3>
