@@ -3,7 +3,7 @@ import { Navigation, Pagination } from "swiper/modules";
 import {useContext} from "react";
 import {Link} from "react-router-dom";
 import styled from "styled-components";
-import {ResourcesContext} from "../contexts/ResourcesContext.jsx";
+import {ResourcesContext} from "../contexts/ResourcesContextObject.jsx";
 
 import "swiper/css";
 import "swiper/css/navigation";

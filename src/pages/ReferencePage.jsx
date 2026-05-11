@@ -6,7 +6,7 @@ import styled from "styled-components";
 import List from "../components/ui/List.jsx";
 import ListItem from "../components/ui/ListItem.jsx";
 import StyledLink from "../components/ui/StyledLink.jsx";
-import {ResourcesContext} from "../contexts/ResourcesContext.jsx";
+import {ResourcesContext} from "../contexts/ResourcesContextObject.jsx";
 
 const StyledPage = styled(PageContainer)`
   margin-top: 7.2rem;
@@ -14,7 +14,13 @@ const StyledPage = styled(PageContainer)`
 
 export default function ReferencePage() {
   const resources = useContext(ResourcesContext);
-  const resourcesWithLinks = resources.filter(resource => resource.link);
+  const resourceSourceLinks = Array.from(
+    new Map(
+      resources
+        .flatMap(resource => resource.sources ?? [])
+        .map(source => [source.url, source])
+    ).values()
+  );
 
   const unsplashCredits = [
     {
@@ -138,6 +144,57 @@ export default function ReferencePage() {
           was used to implement routing.
         </ListItem>
         <ListItem>
+          <StyledLink
+            href="https://leafletjs.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Leaflet
+          </StyledLink>{" "}
+          was used to implement the interactive resource map.
+        </ListItem>
+        <ListItem>
+          <StyledLink
+            href="https://www.openstreetmap.org/copyright"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            OpenStreetMap
+          </StyledLink>{" "}
+          map tiles and geographic data are displayed through Leaflet map
+          attribution.
+        </ListItem>
+        <ListItem>
+          <StyledLink
+            href="https://www.fontshare.com/fonts/satoshi"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Fontshare Satoshi
+          </StyledLink>{" "}
+          was used as the primary website font.
+        </ListItem>
+        <ListItem>
+          <StyledLink
+            href="https://www.google.com/forms/about/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Google Forms
+          </StyledLink>{" "}
+          was used for the resource suggestion form.
+        </ListItem>
+        <ListItem>
+          <StyledLink
+            href="https://www.google.com/maps/about/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Google Maps
+          </StyledLink>{" "}
+          was used for the embedded Katy location map and directions links.
+        </ListItem>
+        <ListItem>
           The KRH logo and favicon were created by us. No external logos were
           used.
         </ListItem>
@@ -165,27 +222,44 @@ export default function ReferencePage() {
         </ListItem>
       </List>
 
-      <Heading3>
-        For organization name and information listed in the resource directory:
-      </Heading3>
+      <Heading3>For resource information listed in the directory:</Heading3>
       <List>
-        {resourcesWithLinks.map(resource => (
-          <ListItem key={resource.id}>
+        {resourceSourceLinks.map(source => (
+          <ListItem key={source.url}>
             <StyledLink
-              href={resource.link}
+              href={source.url}
               target="_blank"
               rel="noopener noreferrer"
             >
-              {resource.name}
+              {source.label}
             </StyledLink>
           </ListItem>
         ))}
       </List>
 
+      <Heading3>For map data and coordinate conversion:</Heading3>
+      <List>
+        <ListItem>
+          <StyledLink
+            href="https://geocoding.geo.census.gov/geocoder/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            U.S. Census Geocoder
+          </StyledLink>{" "}
+          was used to convert listed street addresses into map marker
+          coordinates.
+        </ListItem>
+      </List>
+
       <Heading3>For photos used in the resource directory:</Heading3>
       <p>
         All Unsplash photos are used in compliance with the{" "}
-        <a href="https://unsplash.com/license" target="_blank">
+        <a
+          href="https://unsplash.com/license"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           Unsplash License
         </a>
         .

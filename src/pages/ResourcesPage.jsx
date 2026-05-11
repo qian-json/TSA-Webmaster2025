@@ -7,8 +7,9 @@ import {
   useRef,
   useEffect,
 } from "react";
+import {Link} from "react-router-dom";
 import styled from "styled-components";
-import {ResourcesContext} from "../contexts/ResourcesContext.jsx";
+import {ResourcesContext} from "../contexts/ResourcesContextObject.jsx";
 import PageContainer from "../components/ui/PageContainer.jsx";
 
 const PageLayout = styled.div`
@@ -94,14 +95,11 @@ const GridContainer = styled.div`
   }
 `;
 
-const ResourceCard = styled.a`
+const ResourceCard = styled.article`
   display: block;
-  text-decoration: none;
-  color: inherit;
   position: relative;
   background-color: transparent;
   transition: transform 0.3s;
-  cursor: pointer;
   overflow: visible;
   z-index: 1;
   will-change: transform;
@@ -112,6 +110,12 @@ const ResourceCard = styled.a`
     background-color: rgba(255, 255, 255, 0.95);
     z-index: 100;
   }
+`;
+
+const ResourceContentLink = styled.a`
+  color: inherit;
+  display: block;
+  text-decoration: none;
 `;
 
 const ImageContainer = styled.div`
@@ -164,25 +168,57 @@ const ResourceDescription = styled.p`
   }
 `;
 
+const MapAction = styled(Link)`
+  background-color: #591506;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  opacity: 0;
+  padding: 0.55rem 0.75rem;
+  pointer-events: none;
+  position: absolute;
+  right: 0.75rem;
+  text-decoration: none;
+  top: 0.75rem;
+  transform: translateY(-4px);
+  transition: opacity 0.2s, transform 0.2s;
+  z-index: 2;
+
+  ${ResourceCard}:hover &,
+  ${ResourceCard}:focus-within & {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  &:hover {
+    background-color: #3f0e04;
+  }
+`;
+
 const ResourceCardComponent = memo(({resource}) => {
   return (
-    <ResourceCard
-      href={resource?.link || "#"}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <ImageContainer>
-        <ResourceImage
-          src={resource.imageUrl}
-          alt={resource.name}
-          loading="lazy"
-          decoding="async"
-        />
-      </ImageContainer>
-      <TextContainer>
-        <ResourceName>{resource.name}</ResourceName>
-        <ResourceDescription>{resource.description}</ResourceDescription>
-      </TextContainer>
+    <ResourceCard>
+      <ResourceContentLink
+        href={resource?.link || "#"}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <ImageContainer>
+          <ResourceImage
+            src={resource.imageUrl}
+            alt={resource.name}
+            loading="lazy"
+            decoding="async"
+          />
+        </ImageContainer>
+        <TextContainer>
+          <ResourceName>{resource.name}</ResourceName>
+          <ResourceDescription>{resource.description}</ResourceDescription>
+        </TextContainer>
+      </ResourceContentLink>
+      <MapAction to={`/map?resource=${resource.id}`}>Show on Map</MapAction>
     </ResourceCard>
   );
 });

@@ -8,6 +8,7 @@ import HomePage from "./pages/HomePage.jsx";
 import ContactPage from "./pages/ContactPage.jsx";
 import ResourcesPage from "./pages/ResourcesPage.jsx";
 import ReferencePage from "./pages/ReferencePage.jsx";
+import MapPage from "./pages/MapPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: "resources",
         element: <ResourcesPage />,
+      },
+      {
+        path: "map",
+        element: <MapPage />,
       },
       {
         path: "contact",

@@ -52,6 +52,7 @@ export default function App() {
           </LogoLink>
           <ul className="nav-links">
             <StyledNavLink to="/resources">Resources</StyledNavLink>
+            <StyledNavLink to="/map">Map</StyledNavLink>
             <StyledNavLink to="/references">Reference Page</StyledNavLink>
             <StyledNavLink to="/contact">Contact</StyledNavLink>
           </ul>
