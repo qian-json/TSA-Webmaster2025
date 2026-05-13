@@ -1,8 +1,7 @@
-import {useEffect, useMemo, useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import L from "leaflet";
 import styled from "styled-components";
 import "leaflet/dist/leaflet.css";
-import {formatAddress} from "../data/resources.js";
 
 const MapShell = styled.section`
   margin-top: 1.2rem;
@@ -33,18 +32,16 @@ const MapCanvas = styled.div`
   }
 
   .resource-map-marker {
-    align-items: center;
-    background: #591506;
+    background: #1e3a8a;
     border: 2px solid #ffffff;
     border-radius: 50%;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
-    color: #ffffff;
-    display: flex;
-    font-size: 0.9rem;
-    font-weight: 700;
-    height: 32px;
-    justify-content: center;
-    width: 32px;
+    height: 24px;
+    width: 24px;
+  }
+
+  .resource-map-marker.marker-recreation {
+    background: #2d6b3a;
   }
 
   .resource-popup {
@@ -67,9 +64,11 @@ const MapCanvas = styled.div`
 `;
 
 const SelectedPanel = styled.aside`
-  border-left: 1px solid #ddd;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   color: #333;
-  padding-left: 1.2rem;
+  padding: 1.2rem;
 
   h3 {
     font-size: 1.2rem;
@@ -83,11 +82,6 @@ const SelectedPanel = styled.aside`
     font-size: 0.92rem;
     line-height: 1.35;
     margin-bottom: 0.7rem;
-  }
-
-  @media (max-width: 860px) {
-    border-left: 0;
-    padding-left: 0;
   }
 `;
 
@@ -122,7 +116,7 @@ const ServicePill = styled.li`
 `;
 
 const PanelLink = styled.a`
-  background-color: #333;
+  background-color: #591506;
   border-radius: 8px;
   color: #ffffff;
   display: inline-block;
@@ -134,7 +128,7 @@ const PanelLink = styled.a`
   text-decoration: none;
 
   &:hover {
-    background-color: #000;
+    background-color: #3f0e04;
   }
 `;
 
@@ -153,60 +147,48 @@ const EmptyMapState = styled.div`
   z-index: 500;
 `;
 
-function escapeHtml(value) {
-  return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
-
 function getDirectionsUrl(resource) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    formatAddress(resource.address)
+    resource.address
   )}`;
 }
 
 function getPopupHtml(resource) {
-  const address = formatAddress(resource.address);
-  const services = resource.services.slice(0, 3).join(", ");
-  const approximateNote = resource.coordinates.approximate
-    ? "<br><em>Marker location is approximate.</em>"
-    : "";
+  const tags = resource.tags ? resource.tags.slice(0, 3).join(", ") : "";
+  const phoneLine = resource.phone ? `${resource.phone}<br>` : "";
+  let approximateNote = "";
+  if (resource.coordinates.approximate) {
+    approximateNote = "<em>Marker location is approximate.</em><br>";
+  }
 
   return `
     <div class="resource-popup">
-      <strong>${escapeHtml(resource.name)}</strong>
-      ${escapeHtml(services)}<br>
-      ${escapeHtml(address)}<br>
-      ${escapeHtml(resource.phone)}
-      ${approximateNote}<br>
-      <a href="${getDirectionsUrl(resource)}" target="_blank" rel="noreferrer">Directions</a>
+      <strong>${resource.name}</strong>
+      ${tags}<br>
+      ${resource.address}<br>
+      ${phoneLine}
+      ${approximateNote}
+      <a href="${getDirectionsUrl(resource)}" target="_blank">Directions</a>
     </div>
   `;
 }
 
 export default function ResourceMap({resources, selectedResourceId}) {
   const containerRef = useRef(null);
-  const mapRef = useRef(null);
-  const markerLayerRef = useRef(null);
   const [selectedId, setSelectedId] = useState(null);
 
-  const mappableResources = useMemo(
-    () => resources.filter(resource => resource.coordinates),
-    [resources]
-  );
+  const mappableResources = resources.filter(resource => resource.coordinates);
 
   const selectedResource =
-    mappableResources.find(resource => resource.id === selectedId) ??
-    mappableResources.find(resource => resource.id === selectedResourceId) ??
+    mappableResources.find(resource => resource.id === selectedId) ||
+    mappableResources.find(resource => resource.id === selectedResourceId) ||
     mappableResources[0];
 
   useEffect(() => {
-    if (!containerRef.current || mapRef.current) return;
+    if (!containerRef.current) return;
+    // console.log("rebuilding map");
 
-    mapRef.current = L.map(containerRef.current, {
+    const map = L.map(containerRef.current, {
       scrollWheelZoom: false,
     }).setView([29.78, -95.79], 10);
 
@@ -214,66 +196,68 @@ export default function ResourceMap({resources, selectedResourceId}) {
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       maxZoom: 19,
-    }).addTo(mapRef.current);
+    }).addTo(map);
 
-    markerLayerRef.current = L.layerGroup().addTo(mapRef.current);
-
-    return () => {
-      mapRef.current?.remove();
-      mapRef.current = null;
-      markerLayerRef.current = null;
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!mapRef.current || !markerLayerRef.current) return;
-
-    markerLayerRef.current.clearLayers();
-
+    const mappable = resources.filter(r => r.coordinates);
     const bounds = [];
     let selectedMarker = null;
+    const currentSelected =
+      mappable.find(r => r.id === selectedId) ||
+      mappable.find(r => r.id === selectedResourceId) ||
+      mappable[0];
 
-    mappableResources.forEach((resource, index) => {
+    mappable.forEach(resource => {
       const {lat, lng} = resource.coordinates;
+      const isRec = resource.tags && resource.tags[0] === "recreation";
+      const className = isRec
+        ? "resource-map-marker marker-recreation"
+        : "resource-map-marker";
       const marker = L.marker([lat, lng], {
         icon: L.divIcon({
-          className: "resource-map-marker",
-          html: String(index + 1),
-          iconAnchor: [16, 16],
-          iconSize: [32, 32],
+          className,
+          html: "",
+          iconAnchor: [12, 12],
+          iconSize: [24, 24],
         }),
       })
         .bindPopup(getPopupHtml(resource))
         .on("click", () => setSelectedId(resource.id));
 
-      marker.addTo(markerLayerRef.current);
+      marker.addTo(map);
       bounds.push([lat, lng]);
 
-      if (selectedResource && resource.id === selectedResource.id) {
+      if (currentSelected && resource.id === currentSelected.id) {
         selectedMarker = marker;
       }
     });
 
-    if ((selectedId || selectedResourceId) && selectedMarker && selectedResource) {
-      mapRef.current.setView(
-        [selectedResource.coordinates.lat, selectedResource.coordinates.lng],
+    if ((selectedId || selectedResourceId) && selectedMarker && currentSelected) {
+      map.setView(
+        [currentSelected.coordinates.lat, currentSelected.coordinates.lng],
         13
       );
       selectedMarker.openPopup();
-      return;
-    }
-
-    if (bounds.length === 1) {
-      mapRef.current.setView(bounds[0], 13);
-    }
-
-    if (bounds.length > 1) {
-      mapRef.current.fitBounds(bounds, {
+    } else if (bounds.length === 1) {
+      map.setView(bounds[0], 13);
+    } else if (bounds.length > 1) {
+      map.fitBounds(bounds, {
         maxZoom: 13,
         padding: [34, 34],
       });
     }
-  }, [mappableResources, selectedId, selectedResource, selectedResourceId]);
+
+    return () => {
+      map.remove();
+    };
+  }, [resources, selectedId, selectedResourceId]);
+
+  let hoursText = "";
+  if (selectedResource) {
+    hoursText = selectedResource.hours;
+    if (hoursText === "//event-dependent:contact") {
+      hoursText = "Contact organization for event schedules";
+    }
+  }
 
   return (
     <MapShell aria-label="Resource map">
@@ -291,30 +275,36 @@ export default function ResourceMap({resources, selectedResourceId}) {
             <h3>{selectedResource.name}</h3>
             <p>{selectedResource.description}</p>
             <ServiceList>
-              {selectedResource.services.map(service => (
-                <ServicePill key={service}>{service}</ServicePill>
+              {selectedResource.tags && selectedResource.tags.map(tag => (
+                <ServicePill key={tag}>{tag}</ServicePill>
               ))}
             </ServiceList>
             <DetailBlock>
               <DetailLabel>Address</DetailLabel>
-              {formatAddress(selectedResource.address)}
+              {selectedResource.address}
               {selectedResource.coordinates.approximate && " (approximate marker)"}
             </DetailBlock>
-            <DetailBlock>
-              <DetailLabel>Phone</DetailLabel>
-              {selectedResource.phone}
-            </DetailBlock>
-            <DetailBlock>
-              <DetailLabel>Hours</DetailLabel>
-              {selectedResource.hours}
-            </DetailBlock>
-            <PanelLink
-              href={selectedResource.link}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Website
-            </PanelLink>
+            {selectedResource.phone && (
+              <DetailBlock>
+                <DetailLabel>Phone</DetailLabel>
+                {selectedResource.phone}
+              </DetailBlock>
+            )}
+            {selectedResource.hours && (
+              <DetailBlock>
+                <DetailLabel>Hours</DetailLabel>
+                {hoursText}
+              </DetailBlock>
+            )}
+            {selectedResource.link && selectedResource.link !== "#" && (
+              <PanelLink
+                href={selectedResource.link}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Website
+              </PanelLink>
+            )}
             <PanelLink
               href={getDirectionsUrl(selectedResource)}
               target="_blank"

@@ -7,26 +7,15 @@ export const resources = [
     description:
       "Local nonprofit offering food assistance, financial aid, and supportive services to families in need within the Katy community.",
     spotlighted: true,
-    tags: ["food assistance", "housing assistance", "clothing assistance"],
-    services: ["Food pantry", "Social services", "Crisis support"],
+    tags: ["support services", "basic needs", "housing assistance"],
     phone: "281-391-5261",
     hours: "Mon-Thu, service hours vary by department",
-    address: {
-      line1: "3506 Porter Road",
-      city: "Katy",
-      state: "TX",
-      zip: "77493",
-    },
+    address: "3506 Porter Road, Katy, TX 77493",
     coordinates: {
       lat: 29.824959438651,
       lng: -95.789990716988,
     },
-    sources: [
-      {
-        label: "Katy Christian Ministries locations/contact",
-        url: "https://ktcm.org/contact/",
-      },
-    ],
+    sources: ["https://ktcm.org/contact/"],
   },
   {
     id: "the-ballard-house",
@@ -36,26 +25,15 @@ export const resources = [
     description:
       "Provides temporary housing and support services for patients and caregivers traveling for medical treatment in the Houston area.",
     spotlighted: true,
-    tags: ["housing assistance"],
-    services: ["Temporary housing", "Patient and caregiver support"],
+    tags: ["support services", "housing assistance"],
     phone: "281-717-4670",
     hours: "Contact organization for stay/application details",
-    address: {
-      line1: "21421 Cinco Park Road",
-      city: "Katy",
-      state: "TX",
-      zip: "77450",
-    },
+    address: "21421 Cinco Park Road, Katy, TX 77450",
     coordinates: {
       lat: 29.714060368695,
       lng: -95.740336425482,
     },
-    sources: [
-      {
-        label: "The Ballard House contact page",
-        url: "https://www.theballardhouse.org/contact",
-      },
-    ],
+    sources: ["https://www.theballardhouse.org/contact"],
   },
   {
     id: "clothed-by-faith-katy",
@@ -65,26 +43,15 @@ export const resources = [
     description:
       "Organization offering clothing and essential items to children and families through local school and agency partnerships.",
     spotlighted: true,
-    tags: ["clothing assistance"],
-    services: ["Clothing assistance", "Agency partnerships", "School closets"],
+    tags: ["support services", "basic needs"],
     phone: "281-676-8837",
     hours: "Mon-Fri, 9 am-4 pm",
-    address: {
-      line1: "802 Dominion Drive, Suite 100-300",
-      city: "Katy",
-      state: "TX",
-      zip: "77450",
-    },
+    address: "802 Dominion Drive, Suite 100-300, Katy, TX 77450",
     coordinates: {
       lat: 29.774699548948,
       lng: -95.729628111118,
     },
-    sources: [
-      {
-        label: "Clothed by Faith locations and hours",
-        url: "https://www.clothedbyfaith.org/locations",
-      },
-    ],
+    sources: ["https://www.clothedbyfaith.org/locations"],
   },
   {
     id: "compassion-katy",
@@ -94,26 +61,15 @@ export const resources = [
     description:
       "A 501(c)(3) non-profit that collaborates with local organizations and individuals to provide resources to economically disadvantaged children.",
     spotlighted: false,
-    tags: ["family support", "food assistance"],
-    services: ["Children's support", "Food distribution", "School supply events"],
+    tags: ["support services", "basic needs", "family services"],
     phone: "281-395-1130",
-    hours: "Contact organization for current program/event schedules",
-    address: {
-      line1: "802 Dominion Drive, Suite 900A",
-      city: "Katy",
-      state: "TX",
-      zip: "77450",
-    },
+    hours: "//event-dependent:contact",
+    address: "802 Dominion Drive, Suite 900A, Katy, TX 77450",
     coordinates: {
       lat: 29.774699548948,
       lng: -95.729628111118,
     },
-    sources: [
-      {
-        label: "Compassion Katy official site",
-        url: "https://www.compassionkaty.org/",
-      },
-    ],
+    sources: ["https://www.compassionkaty.org/"],
   },
   {
     id: "katy-responds",
@@ -123,26 +79,15 @@ export const resources = [
     description:
       "Volunteer organization assisting residents affected by disasters and emergencies with rebuilding and recovery efforts.",
     spotlighted: false,
-    tags: ["disaster relief", "housing assistance"],
-    services: ["Home restoration", "Disaster recovery", "Volunteer rebuilding"],
+    tags: ["support services", "crisis support", "housing assistance"],
     phone: "281-305-8545",
     hours: "Contact organization for project and volunteer availability",
-    address: {
-      line1: "2500 Avenue D",
-      city: "Katy",
-      state: "TX",
-      zip: "77493",
-    },
+    address: "2500 Avenue D, Katy, TX 77493",
     coordinates: {
       lat: 29.808412104312,
       lng: -95.824992346031,
     },
-    sources: [
-      {
-        label: "Katy Responds contact page",
-        url: "https://www.katyresponds.org/contact",
-      },
-    ],
+    sources: ["https://www.katyresponds.org/contact"],
   },
   {
     id: "workforce-solutions-katy",
@@ -152,26 +97,15 @@ export const resources = [
     description:
       "Employment resource center providing job search support, training programs, and career development services for local residents.",
     spotlighted: false,
-    tags: ["employment services"],
-    services: ["Job search", "Career planning", "Resume assistance", "Training support"],
+    tags: ["support services", "employment & info"],
     phone: "281-644-1030",
     hours: "Mon-Fri, 8 am-5 pm",
-    address: {
-      line1: "24025 Katy Freeway, Suite D",
-      city: "Katy",
-      state: "TX",
-      zip: "77494",
-    },
+    address: "24025 Katy Freeway, Suite D, Katy, TX 77494",
     coordinates: {
       lat: 29.784966643256,
       lng: -95.78635122391,
     },
-    sources: [
-      {
-        label: "Workforce Solutions Katy location page",
-        url: "https://locations.wrksolutions.com/en/katy",
-      },
-    ],
+    sources: ["https://locations.wrksolutions.com/en/katy"],
   },
   {
     id: "katy-cares-inc",
@@ -181,29 +115,17 @@ export const resources = [
     description:
       "501(c)3 non-profit organization founded in 2016 offering support to single-parent families who are victims of trauma.",
     spotlighted: false,
-    tags: ["family support", "mental health"],
-    services: ["Parent support", "Counseling", "Mentoring", "Training"],
+    tags: ["support services", "family services"],
     phone: "832-517-1636",
-    hours: "Program schedules vary; contact Katy Cares for current availability",
-    address: {
-      line1: "6725 South Fry Road, Suite 700-507",
-      city: "Katy",
-      state: "TX",
-      zip: "77494",
-    },
+    hours: "//event-dependent:contact",
+    address: "6725 South Fry Road, Suite 700-507, Katy, TX 77494",
     coordinates: {
       lat: 29.714271206263,
       lng: -95.774386054195,
     },
     sources: [
-      {
-        label: "Katy Cares contact page",
-        url: "https://katycares.org/contact/",
-      },
-      {
-        label: "Katy Cares location and program overview",
-        url: "https://katycares.org/our-location/",
-      },
+      "https://katycares.org/contact/",
+      "https://katycares.org/our-location/",
     ],
   },
   {
@@ -214,31 +136,189 @@ export const resources = [
     description:
       "Organization serving individuals with intellectual and developmental disabilities, enabling each person to be included as a respected member of their community.",
     spotlighted: false,
-    tags: ["disability support"],
-    services: ["Adult day program", "Summer program", "Social program", "Family support"],
+    tags: ["support services", "family services"],
     phone: "832-754-9802",
     hours: "Appointments required before visiting",
-    address: {
-      line1: "934 Jordan Ranch Boulevard",
-      city: "Brookshire",
-      state: "TX",
-      zip: "77423",
-    },
+    address: "934 Jordan Ranch Boulevard, Brookshire, TX 77423",
     coordinates: {
       lat: 29.7775,
       lng: -95.895,
       approximate: true,
     },
     sources: [
-      {
-        label: "The Arc of Katy official site",
-        url: "https://www.thearcofkaty.org/",
-      },
-      {
-        label: "The Arc of Katy contact page",
-        url: "https://www.thearcofkaty.org/contact",
-      },
+      "https://www.thearcofkaty.org/",
+      "https://www.thearcofkaty.org/contact",
     ],
+  },
+  {
+    id: "mary-jo-peckham-park",
+    link: "#",
+    name: "Mary Jo Peckham Park",
+    description:
+      "Family-friendly Katy park with a fishing lake, miniature golf, playground, basketball courts, disc golf, and a reservable pavilion.",
+    spotlighted: false,
+    tags: ["recreation", "outdoor"],
+    phone: null,
+    hours: "7 am - 9 pm daily, except major holidays",
+    address: "5597 Gardenia Lane, Katy, TX 77493",
+    coordinates: {
+      lat: 29.793,
+      lng: -95.808,
+      approximate: true,
+    },
+  },
+  {
+    id: "katy-park",
+    link: "#",
+    name: "Katy Park",
+    description:
+      "Large city sports complex with 15 baseball fields, 17 soccer fields, batting cages, picnic tables, and a 0.83-mile walking trail.",
+    spotlighted: false,
+    tags: ["recreation", "sports"],
+    phone: null,
+    hours: null,
+    address: "24927 Morton Road, Katy, TX 77493",
+    coordinates: {
+      lat: 29.808,
+      lng: -95.844,
+      approximate: true,
+    },
+  },
+  {
+    id: "katy-city-park",
+    link: "#",
+    name: "Katy City Park",
+    description:
+      "City athletic facility with lighted baseball and softball fields, soccer, a covered basketball pavilion, and six ADA-accessible tennis courts.",
+    spotlighted: false,
+    tags: ["recreation", "sports"],
+    phone: null,
+    hours: null,
+    address: "5850 Franz Road, Katy, TX 77493",
+    coordinates: {
+      lat: 29.792,
+      lng: -95.821,
+      approximate: true,
+    },
+  },
+  {
+    id: "katy-dog-park",
+    link: "#",
+    name: "Katy Dog Park",
+    description:
+      "Seven-acre off-leash dog park with a walking path, dog wading pool, agility equipment, and separate areas for small and large dogs.",
+    spotlighted: false,
+    tags: ["recreation", "dog-friendly"],
+    phone: null,
+    hours: "Dawn to dusk",
+    address: "5414 Franz Road, Katy, TX 77493",
+    coordinates: {
+      lat: 29.793,
+      lng: -95.818,
+      approximate: true,
+    },
+  },
+  {
+    id: "vfw-park",
+    link: "#",
+    name: "VFW Park",
+    description:
+      "Wooded neighborhood park featuring a children's playground, large rope climber, picnic pavilion, walking path, and public restrooms.",
+    spotlighted: false,
+    tags: ["recreation", "outdoor"],
+    phone: null,
+    hours: null,
+    address: "6202 George Bush Drive, Katy, TX 77493",
+    coordinates: {
+      lat: 29.796,
+      lng: -95.820,
+      approximate: true,
+    },
+  },
+  {
+    id: "woodsland-park",
+    link: "#",
+    name: "Woodsland Park",
+    description:
+      "Heavily wooded seven-acre park with a covered basketball court, playground, pavilion with a barbecue pit, and an attached community center.",
+    spotlighted: false,
+    tags: ["recreation", "outdoor"],
+    phone: null,
+    hours: null,
+    address: "443 Danover Road, Katy, TX 77494",
+    coordinates: {
+      lat: 29.745,
+      lng: -95.778,
+      approximate: true,
+    },
+  },
+  {
+    id: "katy-heritage-park",
+    link: "#",
+    name: "Katy Heritage Park",
+    description:
+      "Historic park showcasing restored Katy-area buildings, a gazebo bandstand, landscaped grounds, and a brick patio used for community events.",
+    spotlighted: false,
+    tags: ["recreation", "historic"],
+    phone: null,
+    hours: null,
+    address: "5990 George Bush Drive, Katy, TX 77493",
+    coordinates: {
+      lat: 29.795,
+      lng: -95.821,
+      approximate: true,
+    },
+  },
+  {
+    id: "thomas-park",
+    link: "#",
+    name: "Thomas Park",
+    description:
+      "Small downtown Katy park featuring the Tri-County marker where Harris, Waller, and Fort Bend counties meet, plus a walking path and rentable gazebo.",
+    spotlighted: false,
+    tags: ["recreation", "historic", "outdoor"],
+    phone: null,
+    hours: null,
+    address: "5919 Fourth Street, Katy, TX 77493",
+    coordinates: {
+      lat: 29.787,
+      lng: -95.820,
+      approximate: true,
+    },
+  },
+  {
+    id: "four-seasons-park",
+    link: "#",
+    name: "Four Seasons Park",
+    description:
+      "Harris County Precinct 4 baseball complex with eight fields, concessions, and restrooms across 32 acres.",
+    spotlighted: false,
+    tags: ["recreation", "sports"],
+    phone: null,
+    hours: "7 am - 9 pm daily, except major holidays",
+    address: "4702 Katy Hockley Cut Off Road, Katy, TX 77493",
+    coordinates: {
+      lat: 29.838,
+      lng: -95.800,
+      approximate: true,
+    },
+  },
+  {
+    id: "paul-d-rushing-park",
+    link: "#",
+    name: "Paul D. Rushing Park",
+    description:
+      "232-acre Harris County park with wetlands, lakes, 2.83 miles of trails, fishing, a dog park, baseball and cricket fields, and birdwatching areas.",
+    spotlighted: false,
+    tags: ["recreation", "outdoor", "dog-friendly"],
+    phone: null,
+    hours: null,
+    address: "9114 Katy Hockley Road, Katy, TX 77493",
+    coordinates: {
+      lat: 29.862,
+      lng: -95.789,
+      approximate: true,
+    },
   },
   {
     id: "united-way-greater-houston",
@@ -248,33 +328,17 @@ export const resources = [
     description:
       "Information and referral service connecting residents with housing, food, and utility programs in the region.",
     spotlighted: false,
-    tags: ["information", "food assistance", "housing assistance"],
-    services: ["211 helpline", "Resource referral", "Basic-needs navigation"],
+    tags: ["support services", "employment & info", "basic needs", "housing assistance"],
     phone: "211 or 713-685-2300",
     hours: "211 helpline available 24 hours a day, 7 days a week",
-    address: {
-      line1: "50 Waugh Drive",
-      city: "Houston",
-      state: "TX",
-      zip: "77007",
-    },
+    address: "50 Waugh Drive, Houston, TX 77007",
     coordinates: {
       lat: 29.766605700515,
       lng: -95.398157066679,
     },
     sources: [
-      {
-        label: "United Way Greater Houston 211 information",
-        url: "https://unitedwayhouston.org/211-day/",
-      },
-      {
-        label: "United Way Worldwide local profile",
-        url: "https://www.unitedway.org/local/united-states/texas/united-way-of-greater-houston",
-      },
+      "https://unitedwayhouston.org/211-day/",
+      "https://www.unitedway.org/local/united-states/texas/united-way-of-greater-houston",
     ],
   },
 ];
-
-export function formatAddress(address) {
-  return `${address.line1}, ${address.city}, ${address.state} ${address.zip}`;
-}

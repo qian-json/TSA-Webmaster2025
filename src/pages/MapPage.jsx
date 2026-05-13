@@ -1,20 +1,13 @@
-import {useContext} from "react";
+import {useContext, useEffect} from "react";
 import {useSearchParams} from "react-router-dom";
 import styled from "styled-components";
-import {ResourcesContext} from "../contexts/ResourcesContextObject.jsx";
+import {ResourcesContext} from "../contexts/ResourcesContext.jsx";
 import ResourceMap from "../components/ResourceMap.jsx";
-import Heading1 from "../components/ui/Heading1.jsx";
 import PageContainer from "../components/ui/PageContainer.jsx";
+import Hero from "../components/ui/Hero.jsx";
 
 const StyledPage = styled(PageContainer)`
-  margin-top: 7.2rem;
   max-width: 1200px;
-`;
-
-const Intro = styled.p`
-  color: #555;
-  line-height: 1.45;
-  margin-bottom: 1rem;
 `;
 
 export default function MapPage() {
@@ -22,14 +15,27 @@ export default function MapPage() {
   const [searchParams] = useSearchParams();
   const selectedResourceId = searchParams.get("resource");
 
+  useEffect(() => {
+    document.title = "Map | Katy Resource Hub";
+    if (window.location.hash === "#map") {
+      const el = document.getElementById("map");
+      if (el) el.scrollIntoView({behavior: "smooth"});
+    }
+  }, []);
+
   return (
-    <StyledPage>
-      <Heading1>Map</Heading1>
-      <Intro>Locations and contact details for Katy-area resources.</Intro>
-      <ResourceMap
-        resources={resources}
-        selectedResourceId={selectedResourceId}
+    <>
+      <Hero
+        title="Map"
+        text="Locate resources on our map."
+        image="/hero-map.jpg"
       />
-    </StyledPage>
+      <StyledPage id="map">
+        <ResourceMap
+          resources={resources}
+          selectedResourceId={selectedResourceId}
+        />
+      </StyledPage>
+    </>
   );
 }

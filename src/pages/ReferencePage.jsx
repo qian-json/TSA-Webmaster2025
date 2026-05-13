@@ -1,26 +1,87 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import PageContainer from "../components/ui/PageContainer.jsx";
-import Heading1 from "../components/ui/Heading1.jsx";
+import Hero from "../components/ui/Hero.jsx";
 import Heading3 from "../components/ui/Heading3.jsx";
 import styled from "styled-components";
 import List from "../components/ui/List.jsx";
 import ListItem from "../components/ui/ListItem.jsx";
 import StyledLink from "../components/ui/StyledLink.jsx";
-import {ResourcesContext} from "../contexts/ResourcesContextObject.jsx";
+import {ResourcesContext} from "../contexts/ResourcesContext.jsx";
 
-const StyledPage = styled(PageContainer)`
-  margin-top: 7.2rem;
+const StyledPage = styled(PageContainer)``;
+
+const Card = styled.section`
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 1.2rem 1.4rem;
+  margin-bottom: 1.2rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+`;
+
+const SectionTitle = styled(Heading3)`
+  margin-top: 0;
+`;
+
+const Paragraph = styled.p`
+  color: #333;
+  line-height: 1.5;
+  margin-bottom: 0.5rem;
+`;
+
+const DocRow = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+  margin-bottom: 1.2rem;
+
+  @media (max-width: 760px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const DocCard = styled(Card)`
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+`;
+
+const PdfFrame = styled.iframe`
+  width: 100%;
+  height: 480px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 0.6rem;
+`;
+
+const OpenInNewTab = styled.a`
+  color: #591506;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 export default function ReferencePage() {
   const resources = useContext(ResourcesContext);
-  const resourceSourceLinks = Array.from(
-    new Map(
-      resources
-        .flatMap(resource => resource.sources ?? [])
-        .map(source => [source.url, source])
-    ).values()
-  );
+
+  useEffect(() => {
+    document.title = "References | Katy Resource Hub";
+  }, []);
+
+  // TODO: also dedupe by domain maybe?
+  const resourceSourceLinks = [];
+  resources.forEach(resource => {
+    if (resource.sources) {
+      resource.sources.forEach(source => {
+        if (!resourceSourceLinks.includes(source)) {
+          resourceSourceLinks.push(source);
+        }
+      });
+    }
+  });
 
   const unsplashCredits = [
     {
@@ -98,194 +159,222 @@ export default function ReferencePage() {
   ];
 
   return (
-    <StyledPage>
-      <Heading1>Reference Page</Heading1>
-      <List>
-        <ListItem>
-          This application is built on the{" "}
+    <>
+      <Hero title="Reference Page" image="/hero-references.jpg" />
+      <StyledPage>
+        <DocRow>
+        <DocCard>
+          <SectionTitle>Work Log</SectionTitle>
+          <PdfFrame
+            src="/plan-of-work-log.pdf"
+            title="TSA Work Log PDF"
+          />
+          <OpenInNewTab
+            href="/plan-of-work-log.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Open in new tab →
+          </OpenInNewTab>
+        </DocCard>
+        <DocCard>
+          <SectionTitle>Copyright Checklist</SectionTitle>
+          <PdfFrame
+            src="/student-copyright-checklist.pdf"
+            title="Student Copyright Checklist PDF"
+          />
+          <OpenInNewTab
+            href="/student-copyright-checklist.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Open in new tab →
+          </OpenInNewTab>
+        </DocCard>
+      </DocRow>
+
+      <Card>
+        <SectionTitle>Code Stack</SectionTitle>
+        <Paragraph>
+          This site is built on the{" "}
           <StyledLink
             href="https://react.dev/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            React.js framework
+            React.js
           </StyledLink>{" "}
-          by Meta. The theme for this website was built entirely by us; no
-          prebuilt themes or templates were used.
-        </ListItem>
-        <ListItem>
+          framework by Meta, bundled with{" "}
           <StyledLink
-            href="https://swiperjs.com/"
+            href="https://vite.dev/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Swiper.js
-          </StyledLink>{" "}
-          was used to implement interactive carousel functionality.
-        </ListItem>
-        <ListItem>
-          <StyledLink
-            href="https://styled-components.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Styled Components
-          </StyledLink>{" "}
-          was used to style the website.
-        </ListItem>
-        <ListItem>
-          <StyledLink
-            href="https://react-router.dev/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Router
-          </StyledLink>{" "}
-          was used to implement routing.
-        </ListItem>
-        <ListItem>
-          <StyledLink
-            href="https://leafletjs.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Leaflet
-          </StyledLink>{" "}
-          was used to implement the interactive resource map.
-        </ListItem>
-        <ListItem>
-          <StyledLink
-            href="https://www.openstreetmap.org/copyright"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            OpenStreetMap
-          </StyledLink>{" "}
-          map tiles and geographic data are displayed through Leaflet map
-          attribution.
-        </ListItem>
-        <ListItem>
-          <StyledLink
-            href="https://www.fontshare.com/fonts/satoshi"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Fontshare Satoshi
-          </StyledLink>{" "}
-          was used as the primary website font.
-        </ListItem>
-        <ListItem>
-          <StyledLink
-            href="https://www.google.com/forms/about/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Google Forms
-          </StyledLink>{" "}
-          was used for the resource suggestion form.
-        </ListItem>
-        <ListItem>
-          <StyledLink
-            href="https://www.google.com/maps/about/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Google Maps
-          </StyledLink>{" "}
-          was used for the embedded Katy location map and directions links.
-        </ListItem>
-        <ListItem>
+            Vite
+          </StyledLink>
+          . The entire theme was hand-built by us — no prebuilt themes or
+          templates were used.
+        </Paragraph>
+        <Paragraph>
           The KRH logo and favicon were created by us. No external logos were
           used.
-        </ListItem>
-      </List>
+        </Paragraph>
+      </Card>
 
-      <Heading3>Required TSA documentation:</Heading3>
-      <List>
-        <ListItem>
-          <StyledLink
-            href="/plan-of-work-log.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            TSA Work Log
-          </StyledLink>
-        </ListItem>
-        <ListItem>
-          <StyledLink
-            href="/student-copyright-checklist.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Student Copyright Checklist
-          </StyledLink>
-        </ListItem>
-      </List>
-
-      <Heading3>For resource information listed in the directory:</Heading3>
-      <List>
-        {resourceSourceLinks.map(source => (
-          <ListItem key={source.url}>
+      <Card>
+        <SectionTitle>Additional Libraries Utilized</SectionTitle>
+        <List>
+          <ListItem>
             <StyledLink
-              href={source.url}
+              href="https://swiperjs.com/"
               target="_blank"
               rel="noopener noreferrer"
             >
-              {source.label}
-            </StyledLink>
-          </ListItem>
-        ))}
-      </List>
-
-      <Heading3>For map data and coordinate conversion:</Heading3>
-      <List>
-        <ListItem>
-          <StyledLink
-            href="https://geocoding.geo.census.gov/geocoder/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            U.S. Census Geocoder
-          </StyledLink>{" "}
-          was used to convert listed street addresses into map marker
-          coordinates.
-        </ListItem>
-      </List>
-
-      <Heading3>For photos used in the resource directory:</Heading3>
-      <p>
-        All Unsplash photos are used in compliance with the{" "}
-        <a
-          href="https://unsplash.com/license"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Unsplash License
-        </a>
-        .
-      </p>
-      <List>
-        {unsplashCredits.map(credit => (
-          <ListItem key={credit.id}>
-            Photo by{" "}
-            <StyledLink
-              href={credit.photographerUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {credit.photographer}
+              Swiper.js
             </StyledLink>{" "}
-            on{" "}
+            — interactive carousel on the home page.
+          </ListItem>
+          <ListItem>
             <StyledLink
-              href={credit.photoUrl}
+              href="https://styled-components.com/"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Unsplash
-            </StyledLink>
+              Styled Components
+            </StyledLink>{" "}
+            — component-scoped CSS styling.
           </ListItem>
-        ))}
-      </List>
-    </StyledPage>
+          <ListItem>
+            <StyledLink
+              href="https://react-router.dev/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              React Router
+            </StyledLink>{" "}
+            — page routing.
+          </ListItem>
+          <ListItem>
+            <StyledLink
+              href="https://leafletjs.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Leaflet
+            </StyledLink>{" "}
+            — interactive resource map.
+          </ListItem>
+          <ListItem>
+            <StyledLink
+              href="https://www.openstreetmap.org/copyright"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              OpenStreetMap
+            </StyledLink>{" "}
+            — map tile data, displayed via Leaflet attribution.
+          </ListItem>
+          <ListItem>
+            <StyledLink
+              href="https://www.fontshare.com/fonts/satoshi"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Fontshare Satoshi
+            </StyledLink>{" "}
+            — primary website font.
+          </ListItem>
+          <ListItem>
+            <StyledLink
+              href="https://www.google.com/forms/about/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Google Forms
+            </StyledLink>{" "}
+            — embedded resource submission form.
+          </ListItem>
+          <ListItem>
+            <StyledLink
+              href="https://www.google.com/maps/about/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Google Maps
+            </StyledLink>{" "}
+            — embedded Katy location map and Directions links.
+          </ListItem>
+          <ListItem>
+            <StyledLink
+              href="https://geocoding.geo.census.gov/geocoder/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              U.S. Census Geocoder
+            </StyledLink>{" "}
+            — converting street addresses into map marker coordinates.
+          </ListItem>
+        </List>
+      </Card>
+
+      <Card>
+        <SectionTitle>Research Links</SectionTitle>
+        <Paragraph>
+          Source pages used to verify directory information (organization
+          contact info, hours, services).
+        </Paragraph>
+        <List>
+          {resourceSourceLinks.map(source => (
+            <ListItem key={source}>
+              <StyledLink
+                href={source}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {source}
+              </StyledLink>
+            </ListItem>
+          ))}
+        </List>
+      </Card>
+
+      <Card>
+        <SectionTitle>Image Credits</SectionTitle>
+        <Paragraph>
+          All Unsplash photos used in compliance with the{" "}
+          <StyledLink
+            href="https://unsplash.com/license"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Unsplash License
+          </StyledLink>
+          .
+        </Paragraph>
+        <List>
+          {unsplashCredits.map(credit => (
+            <ListItem key={credit.id}>
+              Photo by{" "}
+              <StyledLink
+                href={credit.photographerUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {credit.photographer}
+              </StyledLink>{" "}
+              on{" "}
+              <StyledLink
+                href={credit.photoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Unsplash
+              </StyledLink>
+            </ListItem>
+          ))}
+        </List>
+      </Card>
+      </StyledPage>
+    </>
   );
 }
