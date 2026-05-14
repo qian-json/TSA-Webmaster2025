@@ -1,3 +1,4 @@
+import {useState} from "react";
 import {Outlet, Link, NavLink} from "react-router-dom";
 import styled from "styled-components";
 import logo from "/favicon.png";
@@ -105,13 +106,66 @@ const SkipLink = styled.a`
   }
 `;
 
+const HamburgerButton = styled.button`
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  flex-direction: column;
+  gap: 5px;
+
+  @media (max-width: 700px) {
+    display: flex;
+  }
+
+  span {
+    width: 24px;
+    height: 3px;
+    background-color: #f2f2f2;
+    border-radius: 2px;
+  }
+`;
+
+const MobileMenu = styled.div`
+  position: fixed;
+  top: 4.5rem;
+  left: 0;
+  right: 0;
+  background-color: #591506;
+  display: flex;
+  flex-direction: column;
+  z-index: 999;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+`;
+
+const MobileNavLink = styled(NavLink)`
+  color: #f2f2f2;
+  text-decoration: none;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+  &:hover,
+  &.active {
+    background-color: #3f0e04;
+    color: #ffffff;
+  }
+`;
+
 export default function App() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  function closeMenu() {
+    setMenuOpen(false);
+  }
+
   return (
     <>
       <SkipLink href="#main">Skip to main content</SkipLink>
       <nav className="navbar">
         <div className="nav-content">
-          <LogoLink to="/">
+          <LogoLink to="/" onClick={closeMenu}>
             <img className="logo" src={logo} alt="Katy Resource Hub home" />
             <Wordmark>Katy Resource Hub</Wordmark>
           </LogoLink>
@@ -121,8 +175,25 @@ export default function App() {
             <StyledNavLink to="/references">Reference Page</StyledNavLink>
             <StyledNavLink to="/contact">Contribute</StyledNavLink>
           </ul>
+          <HamburgerButton
+            aria-label="Toggle menu"
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            <span />
+            <span />
+            <span />
+          </HamburgerButton>
         </div>
       </nav>
+      {menuOpen && (
+        <MobileMenu>
+          <MobileNavLink to="/resources" onClick={closeMenu}>Catalog</MobileNavLink>
+          <MobileNavLink to="/map" onClick={closeMenu}>Map</MobileNavLink>
+          <MobileNavLink to="/references" onClick={closeMenu}>Reference Page</MobileNavLink>
+          <MobileNavLink to="/contact" onClick={closeMenu}>Contribute</MobileNavLink>
+        </MobileMenu>
+      )}
 
       <main id="main">
         <Outlet />
